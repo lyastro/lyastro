@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: aitalk.tech/sitemap.xml
+Sitemap: http://aitalk.tech/sitemap.xml
