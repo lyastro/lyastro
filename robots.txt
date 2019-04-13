@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://lyastro.github.io/sitemap.xml
+Sitemap: aitalk.tech/sitemap.xml

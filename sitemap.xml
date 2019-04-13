@@ -1,39 +1,39 @@
-<?xml-stylesheet type="text/xsl" href="https://lyastro.github.io/sitemap.xsl"?>
+<?xml-stylesheet type="text/xsl" href="aitalk.tech/sitemap.xsl"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://lyastro.github.io/about/</loc>
+    <loc>aitalk.tech/about/</loc>
     <lastmod>2017-08-28T21:41:52+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://lyastro.github.io/post/my-first-post/</loc>
+    <loc>aitalk.tech/post/my-first-post/</loc>
     <lastmod>2019-04-09T14:47:22+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://lyastro.github.io/post/</loc>
+    <loc>aitalk.tech/post/</loc>
     <lastmod>2019-04-09T14:47:22+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://lyastro.github.io/</loc>
+    <loc>aitalk.tech/</loc>
     <lastmod>2019-04-09T14:47:22+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://lyastro.github.io/categories/</loc>
+    <loc>aitalk.tech/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://lyastro.github.io/tags/</loc>
+    <loc>aitalk.tech/tags/</loc>
     <priority>0</priority>
   </url>
   
