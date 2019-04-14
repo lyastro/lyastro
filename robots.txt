@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://lyastro.github.io/sitemap.xml
