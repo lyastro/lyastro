@@ -6,10 +6,19 @@
     <description>Recent content in Posts on 一苇杭之</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 12 May 2019 16:32:41 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 18 Oct 2019 19:19:51 +0800</lastBuildDate>
     
 	<atom:link href="https://lyastro.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Matplotlib 中文乱码解决方案</title>
+      <link>https://lyastro.github.io/post/python/matplot-chinese/</link>
+      <pubDate>Fri, 18 Oct 2019 19:19:51 +0800</pubDate>
+      
+      <guid>https://lyastro.github.io/post/python/matplot-chinese/</guid>
+      <description>Matplotlib 中文乱码解决方案 Linux下 Matplotlib 中文乱码解决方案 下载中文字体（黑体）文件，可以从 这里下载。 将simhei.ttf文件拷贝到 /usr/share/fonts/ 里面 在Pytho</description>
+    </item>
     
     <item>
       <title>Docker安装教程</title>
