@@ -9,6 +9,25 @@
   </url>
   
   <url>
+    <loc>https://lyastro.github.io/python/matplot-chinese/</loc>
+    <lastmod>2019-10-18T19:19:51+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://lyastro.github.io/python/</loc>
+    <lastmod>2019-10-18T19:19:51+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://lyastro.github.io/</loc>
+    <lastmod>2019-10-18T19:19:51+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://lyastro.github.io/post/docker_install/</loc>
     <lastmod>2019-05-12T16:32:41+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -17,12 +36,6 @@
   
   <url>
     <loc>https://lyastro.github.io/post/</loc>
-    <lastmod>2019-05-12T16:32:41+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://lyastro.github.io/</loc>
     <lastmod>2019-05-12T16:32:41+08:00</lastmod>
     <priority>0</priority>
   </url>
