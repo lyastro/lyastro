@@ -51,14 +51,14 @@
   </url>
   
   <url>
-    <loc>https://lyastro.github.io/post/docker_install/</loc>
+    <loc>https://lyastro.github.io/post/template/docker_install/</loc>
     <lastmod>2019-05-12T16:32:41+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://lyastro.github.io/post/my-first-post/</loc>
+    <loc>https://lyastro.github.io/post/template/my-first-post/</loc>
     <lastmod>2019-04-09T14:47:22+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

@@ -31,19 +31,19 @@
     
     <item>
       <title>Docker安装教程</title>
-      <link>https://lyastro.github.io/post/docker_install/</link>
+      <link>https://lyastro.github.io/post/template/docker_install/</link>
       <pubDate>Sun, 12 May 2019 16:32:41 +0800</pubDate>
       
-      <guid>https://lyastro.github.io/post/docker_install/</guid>
+      <guid>https://lyastro.github.io/post/template/docker_install/</guid>
       <description>Docker安装教程 本教程以在CentOS 7系统上安装Docker为例，本质上是对Docker官网安装教程的翻译和精简版，英文好的读者可以之</description>
     </item>
     
     <item>
       <title>Hugo建站手册</title>
-      <link>https://lyastro.github.io/post/my-first-post/</link>
+      <link>https://lyastro.github.io/post/template/my-first-post/</link>
       <pubDate>Tue, 09 Apr 2019 14:47:22 +0800</pubDate>
       
-      <guid>https://lyastro.github.io/post/my-first-post/</guid>
+      <guid>https://lyastro.github.io/post/template/my-first-post/</guid>
       <description>建站手册 之前使用hexo配合GitHub搭建过个人站点，偶然听小伙伴说hugo比hexo更好用，而且是基于go语言的，于是想尝试一下，顺便捡</description>
     </item>
     
