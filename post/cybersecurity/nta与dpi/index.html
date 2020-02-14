@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title> - 一苇杭之</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="一苇" />
+  <meta name="description" content="2、 流量探针设备的主要功能，设备自身做哪些数据处理？ 流量探针设备在不同厂商的名称略有不同，有的叫深度包解析设备（Deep packet inspection，DPI），有的叫网络流量分析设备（Network Traffic Analysis，NTA），那么NTA和DPI的区别是什么呢？下面先详细介绍一下DPI和DFI（Deep/Dynamic Flow Inspection，深度/动态流检测）技术。
+DPI与DFI DPI DPI全称为“Deep Packet Inspection”，称为“深度包检测”。所谓“深度”是和普通的报文分析层次相比较而言的，普通报文检测仅分析 IP 包的4层以下的内容，包括源地址、目的地址、源端口、目的端口以及协议类型。DPI技术在分析包头的基础上，增加了对应用层的分析，是一种基于应用层的流量检测和控制技术，当IP数据包、TCP或UDP数据流经过基于DPI技术的带宽管理系统时，该系统通过深入读取IP包载荷的内容来对OSI7层协议中的应用层信息进行重组，从而得到整个应用程序的内容，然后按照系统定义的管理策略对流量进行整形操作。
+针对不同的协议类型，DPI识别技术可划分为以下三类：
+第一类是特征字的识别技术：不同的应用通常会采用不同的协议，而各种协议都有其特殊的指纹，这些指纹可能是特定的端口、特定的字符串或者特定的Bit序列。基于特征字的识别技术，正是通过识别数据报文中的指纹信息来确定业务所承载的应用。根据具体检测方式的不同，基于特征字的识别技术又可细分为固定特征位置匹配、变动特征位置匹配和状态特征字匹配三种分支技术。通过对指纹信息的升级，基于特征字的识别技术可以方便的扩展到对新协议的检测。
+第二类是应用层网关识别技术：在业务中，有一类的控制流和业务流是分离的，如与7号信令相关的业务，其业务流没有任何特征，应用层网管识别技术针对的对象就是此类业务，首先由应用层网管识别出控制流，并根据控制流协议选择特定的应用层网关对业务流进行解析，从而识别出相应的业务流。对于每一个协议，需要不同的应用层网关对其进行分析。例如：H323、SIP等协议，就属于此类，其通过信令交互过程，协商得到其数据通道，一般是RTP格式封装的语音流，纯粹检测RTP流并不能确定这条RTP流是通过那种协议建立起来的，即判断其是何种业务，只有通过检测SIP或H232的协议交互，才能得到其完整的分析。
+第三类是行为模式识别技术：在实施行为模式技术之前，运营商首先必须先对终端的各种行为进行研究，并在此基础上建立行为识别模型，基于行为识别模型，行为模式识别技术即根据客户已经实施的行为，判断客户正在进行的动作或者即将实施的动作。行为模式识别技术通常用于那些无法由协议本身就能判别的业务，例如：从电子邮件的内容看，垃圾邮件和普通邮件的业务流两者间根本没有区别，只有进一步分析，具体根据发送邮件的大小、频率，目的邮件和源邮件地址、变化的频率和被拒绝的频率等综合分析，建立综合识别模型，才能判断是否为垃圾邮件。
+这三类识别技术分别适用于不同类型的协议，相互之间无法替代，只有综合的运用这三大技术，才能有效的灵活的识别网络上的各类应用，从而实现控制和计费。
+DFI DFI(Deep/Dynamic Flow Inspection，深度/动态流检测)与DPI进行应用层的载荷匹配不同，采用的是一种基于流量行为的应用识别技术，即不同的应用类型体现在会话连接或数据流上的状态各有不同。例如，网上IP语音流量体现在流状态上的特征就非常明显：RTP流的包长相对固定，一般在130～220byte，连接速率较低，为20～84kbit/s，同时会话持续时间也相对较长；而基于P2P下载应用的流量模型的特点为平均包长都在450byte以上、下载时间长、连接速率高、首选传输层协议为TCP等。DFI技术正是基于这一系列流量的行为特征，建立流量特征模型，通过分析会话连接流的包长、连接速率、传输字节量、包与包之间的间隔等信息来与流量模型对比，从而实现鉴别应用类型。
+DPI与DFI的优缺点 DFI处理速度相对快：采用DPI技术由于要逐包进行拆包操作，并与后台数据库进行匹配对比；采用DFI技术进行流量分析仅需将流量特征与后台流量模型比较即可。
+DFI维护成本相对较低：基于DPI技术的带宽管理系统，总是滞后新应用，需要紧跟新协议和新型应用的产生而不断升级后台应用数据库，否则就不能有效识别、管理新技术下的带宽，提高模式匹配效率；而基于DFI技术的系统在管理维护上的工作量要少于DPI系统，因为同一类型的新应用与旧应用的流量特征不会出现大的变化，因此不需要频繁升级流量行为模型。
+识别准确率方面各有千秋：由于DPI采用逐包分析、模式匹配技术，因此，可以对流量中的具体应用类型和协议做到比较准确的识别；而DFI仅对流量行为分析，因此只能对应用类型进行笼统分类，如对满足P2P流量模型的应用统一识别为P2P流量，对符合网络语音流量模型的类型统一归类为VOIP流量，但是无法判断该流量是否采用H.323或其他协议。如果数据包是经过加密传输的，则采用DPI方式的流控技术则不能识别其具体应用，而DFI方式的流控技术则不受影响，因为应用流的状态行为特征不会因加密而根本改变。
+NTA NTA的定义 NTA是一直新兴的威胁检测技术，是2013年Gartner提出的五种检测高级威胁的手段之一。其前身是NBA（Network Behavior Analysis），一项早在2005年就被Gartner提出来的技术。NTA与EDR（Endpoint Detection and Response，端点检测与响应 ）一个关注网络，一个聚焦端点，但在技术和应用上有很多相似之处：都属于威胁检测类的新兴技术，都用到了大数据分析技术，都是安全分析的一个具体用例，都是CARTA（Continuous Adaptive Risk and Trust Assessment，持续自适应风险与信任评估）的重要组成部分，都推荐与SIEM/SOC集成使用，都是一类对安全分析师水平要求较高的技术，用好不易。
+NTA融合了传统的基于规则的检测技术，以及机器学习和其他高级分析技术，通过对行为的探知和上下文的关联，用以检测企业网络中的可疑行为，尤其是失陷后的痕迹。NTA通过DFI和DPI技术来分析网络流量，通常部署在关键的网络区域对南北向（跨越网络边界）/东西向（网络中横向移动）的流量进行分析，而不会试图对全网进行监测。
+NTA的定位与特点 2017年6月，NTA（Network Traffic Analysis）技术入选了国际知名咨询机构Gartner《2017年11大顶尖信息安全技术》，列于第五位。在当下新的安全形势下，流量分析技术在威胁分析、恶意行为监测上的作用进一步被强化。现有的安全防护措施屡屡失效，人们迫切需要在常见的网络三剑客IPS（Intrusion Prevention System）&#43;IDS（Intrusion Detection System）&#43;防火墙的基础上做进一步的补充，而根据“只要有攻击就会有流量产生”这样的朴素道理，NTA技术被认为可以极大地提升防御能力。对于那些试图通过基于网络的方式去识别绕过边界安全的高级攻击的企业而言，可以考虑使用NTA技术来帮助识别、管理和分类这些事件，并做出辅助决策。
+2019年2月，Gartner发布了《网络流量分析（NTA）市场指南》，其中对NTA的市场定义为：NTA是一种功能和能力，而非纯粹的一个产品。换而言之，NTA是支撑安全产品的一项技术能力，通过对内外网之间的流量以及内网之中的流量进行监控、分析，以检测企业网络中的潜在威胁。其中，需要注意的是，对于行为的检测是需要基于网络流量进行的，而不是针对用户自身的行为。即使是APT攻击，攻击者依然会遵循一定的方式进行：前期对IT环境的侦查、对边界的尝试绕过、社会工程学与钓鱼的针对人攻击、内网的扩散、后门的植入等。而NTA的的价值就在于通过对实际流量进行分析、对比，发现威胁。
+目前，NTA技术已基本具备了成熟的响应与监测能力，具备多元化网络安全解决方案的企业以及专攻一门（如网络沙盒）的企业已基本覆盖NTA市场，已经能够实现具体案例具体实施的细化解决方案。Gartner在《NTA市场指南》中指出，NTA作为一种新兴的威胁检测技术，主要应用于网络流量的行为分析，帮助企业监测可疑流量，弥补其他安全工具的不足，NTA技术强调实时流量的行为检测，这样可以大大缩短感染和检测之间的时间，NTA解决方案在发生完全破坏之前告警修复攻击，让企业高枕无忧。对Gartner《NTA市场指南》中罗列的国外知名厂商旗下安全产品，可以看到成熟的产品一般具备以下特点，或支持相关能力：
+  网络全流量存储与检索 解析后的全流量网络协议数据会基于大数据技术进行存储，支持快速检索的能力，以满足对实时数据的在线分析与离线分析技术。
+  攻击行为检测 通过对协议进行特征识别，检测通用攻击行为的能力，如Web攻击、应用层攻击、端口/服务扫描攻击等。
+  异常行为检测 对协议数据进行行为分析，注重协议上下文的关联性，大量应用机器学习、数据分析等新技术识别异常行为与高级风险。
+  基线式检测 以海量数据为基础，构建安全基线场景，利用离线分析技术，检测低速及潜伏型安全威胁。" />
+
+  <meta name="keywords" content="Hugo, theme, jane" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.61.0" />
+
+
+<link rel="canonical" href="https://lyastro.github.io/post/cybersecurity/nta%E4%B8%8Edpi/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.19ae5a432863a072ec64433bb1020bd6d3401129f87d6f2ad5af3bcfd84168a1.css" integrity="sha256-Ga5aQyhjoHLsZEM7sQIL1tNAESn4fW8q1a87z9hBaKE=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="" />
+<meta property="og:description" content="2、 流量探针设备的主要功能，设备自身做哪些数据处理？ 流量探针设备在不同厂商的名称略有不同，有的叫深度包解析设备（Deep packet inspection，DPI），有的叫网络流量分析设备（Network Traffic Analysis，NTA），那么NTA和DPI的区别是什么呢？下面先详细介绍一下DPI和DFI（Deep/Dynamic Flow Inspection，深度/动态流检测）技术。
+DPI与DFI DPI DPI全称为“Deep Packet Inspection”，称为“深度包检测”。所谓“深度”是和普通的报文分析层次相比较而言的，普通报文检测仅分析 IP 包的4层以下的内容，包括源地址、目的地址、源端口、目的端口以及协议类型。DPI技术在分析包头的基础上，增加了对应用层的分析，是一种基于应用层的流量检测和控制技术，当IP数据包、TCP或UDP数据流经过基于DPI技术的带宽管理系统时，该系统通过深入读取IP包载荷的内容来对OSI7层协议中的应用层信息进行重组，从而得到整个应用程序的内容，然后按照系统定义的管理策略对流量进行整形操作。
+针对不同的协议类型，DPI识别技术可划分为以下三类：
+第一类是特征字的识别技术：不同的应用通常会采用不同的协议，而各种协议都有其特殊的指纹，这些指纹可能是特定的端口、特定的字符串或者特定的Bit序列。基于特征字的识别技术，正是通过识别数据报文中的指纹信息来确定业务所承载的应用。根据具体检测方式的不同，基于特征字的识别技术又可细分为固定特征位置匹配、变动特征位置匹配和状态特征字匹配三种分支技术。通过对指纹信息的升级，基于特征字的识别技术可以方便的扩展到对新协议的检测。
+第二类是应用层网关识别技术：在业务中，有一类的控制流和业务流是分离的，如与7号信令相关的业务，其业务流没有任何特征，应用层网管识别技术针对的对象就是此类业务，首先由应用层网管识别出控制流，并根据控制流协议选择特定的应用层网关对业务流进行解析，从而识别出相应的业务流。对于每一个协议，需要不同的应用层网关对其进行分析。例如：H323、SIP等协议，就属于此类，其通过信令交互过程，协商得到其数据通道，一般是RTP格式封装的语音流，纯粹检测RTP流并不能确定这条RTP流是通过那种协议建立起来的，即判断其是何种业务，只有通过检测SIP或H232的协议交互，才能得到其完整的分析。
+第三类是行为模式识别技术：在实施行为模式技术之前，运营商首先必须先对终端的各种行为进行研究，并在此基础上建立行为识别模型，基于行为识别模型，行为模式识别技术即根据客户已经实施的行为，判断客户正在进行的动作或者即将实施的动作。行为模式识别技术通常用于那些无法由协议本身就能判别的业务，例如：从电子邮件的内容看，垃圾邮件和普通邮件的业务流两者间根本没有区别，只有进一步分析，具体根据发送邮件的大小、频率，目的邮件和源邮件地址、变化的频率和被拒绝的频率等综合分析，建立综合识别模型，才能判断是否为垃圾邮件。
+这三类识别技术分别适用于不同类型的协议，相互之间无法替代，只有综合的运用这三大技术，才能有效的灵活的识别网络上的各类应用，从而实现控制和计费。
+DFI DFI(Deep/Dynamic Flow Inspection，深度/动态流检测)与DPI进行应用层的载荷匹配不同，采用的是一种基于流量行为的应用识别技术，即不同的应用类型体现在会话连接或数据流上的状态各有不同。例如，网上IP语音流量体现在流状态上的特征就非常明显：RTP流的包长相对固定，一般在130～220byte，连接速率较低，为20～84kbit/s，同时会话持续时间也相对较长；而基于P2P下载应用的流量模型的特点为平均包长都在450byte以上、下载时间长、连接速率高、首选传输层协议为TCP等。DFI技术正是基于这一系列流量的行为特征，建立流量特征模型，通过分析会话连接流的包长、连接速率、传输字节量、包与包之间的间隔等信息来与流量模型对比，从而实现鉴别应用类型。
+DPI与DFI的优缺点 DFI处理速度相对快：采用DPI技术由于要逐包进行拆包操作，并与后台数据库进行匹配对比；采用DFI技术进行流量分析仅需将流量特征与后台流量模型比较即可。
+DFI维护成本相对较低：基于DPI技术的带宽管理系统，总是滞后新应用，需要紧跟新协议和新型应用的产生而不断升级后台应用数据库，否则就不能有效识别、管理新技术下的带宽，提高模式匹配效率；而基于DFI技术的系统在管理维护上的工作量要少于DPI系统，因为同一类型的新应用与旧应用的流量特征不会出现大的变化，因此不需要频繁升级流量行为模型。
+识别准确率方面各有千秋：由于DPI采用逐包分析、模式匹配技术，因此，可以对流量中的具体应用类型和协议做到比较准确的识别；而DFI仅对流量行为分析，因此只能对应用类型进行笼统分类，如对满足P2P流量模型的应用统一识别为P2P流量，对符合网络语音流量模型的类型统一归类为VOIP流量，但是无法判断该流量是否采用H.323或其他协议。如果数据包是经过加密传输的，则采用DPI方式的流控技术则不能识别其具体应用，而DFI方式的流控技术则不受影响，因为应用流的状态行为特征不会因加密而根本改变。
+NTA NTA的定义 NTA是一直新兴的威胁检测技术，是2013年Gartner提出的五种检测高级威胁的手段之一。其前身是NBA（Network Behavior Analysis），一项早在2005年就被Gartner提出来的技术。NTA与EDR（Endpoint Detection and Response，端点检测与响应 ）一个关注网络，一个聚焦端点，但在技术和应用上有很多相似之处：都属于威胁检测类的新兴技术，都用到了大数据分析技术，都是安全分析的一个具体用例，都是CARTA（Continuous Adaptive Risk and Trust Assessment，持续自适应风险与信任评估）的重要组成部分，都推荐与SIEM/SOC集成使用，都是一类对安全分析师水平要求较高的技术，用好不易。
+NTA融合了传统的基于规则的检测技术，以及机器学习和其他高级分析技术，通过对行为的探知和上下文的关联，用以检测企业网络中的可疑行为，尤其是失陷后的痕迹。NTA通过DFI和DPI技术来分析网络流量，通常部署在关键的网络区域对南北向（跨越网络边界）/东西向（网络中横向移动）的流量进行分析，而不会试图对全网进行监测。
+NTA的定位与特点 2017年6月，NTA（Network Traffic Analysis）技术入选了国际知名咨询机构Gartner《2017年11大顶尖信息安全技术》，列于第五位。在当下新的安全形势下，流量分析技术在威胁分析、恶意行为监测上的作用进一步被强化。现有的安全防护措施屡屡失效，人们迫切需要在常见的网络三剑客IPS（Intrusion Prevention System）&#43;IDS（Intrusion Detection System）&#43;防火墙的基础上做进一步的补充，而根据“只要有攻击就会有流量产生”这样的朴素道理，NTA技术被认为可以极大地提升防御能力。对于那些试图通过基于网络的方式去识别绕过边界安全的高级攻击的企业而言，可以考虑使用NTA技术来帮助识别、管理和分类这些事件，并做出辅助决策。
+2019年2月，Gartner发布了《网络流量分析（NTA）市场指南》，其中对NTA的市场定义为：NTA是一种功能和能力，而非纯粹的一个产品。换而言之，NTA是支撑安全产品的一项技术能力，通过对内外网之间的流量以及内网之中的流量进行监控、分析，以检测企业网络中的潜在威胁。其中，需要注意的是，对于行为的检测是需要基于网络流量进行的，而不是针对用户自身的行为。即使是APT攻击，攻击者依然会遵循一定的方式进行：前期对IT环境的侦查、对边界的尝试绕过、社会工程学与钓鱼的针对人攻击、内网的扩散、后门的植入等。而NTA的的价值就在于通过对实际流量进行分析、对比，发现威胁。
+目前，NTA技术已基本具备了成熟的响应与监测能力，具备多元化网络安全解决方案的企业以及专攻一门（如网络沙盒）的企业已基本覆盖NTA市场，已经能够实现具体案例具体实施的细化解决方案。Gartner在《NTA市场指南》中指出，NTA作为一种新兴的威胁检测技术，主要应用于网络流量的行为分析，帮助企业监测可疑流量，弥补其他安全工具的不足，NTA技术强调实时流量的行为检测，这样可以大大缩短感染和检测之间的时间，NTA解决方案在发生完全破坏之前告警修复攻击，让企业高枕无忧。对Gartner《NTA市场指南》中罗列的国外知名厂商旗下安全产品，可以看到成熟的产品一般具备以下特点，或支持相关能力：
+  网络全流量存储与检索 解析后的全流量网络协议数据会基于大数据技术进行存储，支持快速检索的能力，以满足对实时数据的在线分析与离线分析技术。
+  攻击行为检测 通过对协议进行特征识别，检测通用攻击行为的能力，如Web攻击、应用层攻击、端口/服务扫描攻击等。
+  异常行为检测 对协议数据进行行为分析，注重协议上下文的关联性，大量应用机器学习、数据分析等新技术识别异常行为与高级风险。
+  基线式检测 以海量数据为基础，构建安全基线场景，利用离线分析技术，检测低速及潜伏型安全威胁。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lyastro.github.io/post/cybersecurity/nta%E4%B8%8Edpi/" />
+
+<meta itemprop="name" content="">
+<meta itemprop="description" content="2、 流量探针设备的主要功能，设备自身做哪些数据处理？ 流量探针设备在不同厂商的名称略有不同，有的叫深度包解析设备（Deep packet inspection，DPI），有的叫网络流量分析设备（Network Traffic Analysis，NTA），那么NTA和DPI的区别是什么呢？下面先详细介绍一下DPI和DFI（Deep/Dynamic Flow Inspection，深度/动态流检测）技术。
+DPI与DFI DPI DPI全称为“Deep Packet Inspection”，称为“深度包检测”。所谓“深度”是和普通的报文分析层次相比较而言的，普通报文检测仅分析 IP 包的4层以下的内容，包括源地址、目的地址、源端口、目的端口以及协议类型。DPI技术在分析包头的基础上，增加了对应用层的分析，是一种基于应用层的流量检测和控制技术，当IP数据包、TCP或UDP数据流经过基于DPI技术的带宽管理系统时，该系统通过深入读取IP包载荷的内容来对OSI7层协议中的应用层信息进行重组，从而得到整个应用程序的内容，然后按照系统定义的管理策略对流量进行整形操作。
+针对不同的协议类型，DPI识别技术可划分为以下三类：
+第一类是特征字的识别技术：不同的应用通常会采用不同的协议，而各种协议都有其特殊的指纹，这些指纹可能是特定的端口、特定的字符串或者特定的Bit序列。基于特征字的识别技术，正是通过识别数据报文中的指纹信息来确定业务所承载的应用。根据具体检测方式的不同，基于特征字的识别技术又可细分为固定特征位置匹配、变动特征位置匹配和状态特征字匹配三种分支技术。通过对指纹信息的升级，基于特征字的识别技术可以方便的扩展到对新协议的检测。
+第二类是应用层网关识别技术：在业务中，有一类的控制流和业务流是分离的，如与7号信令相关的业务，其业务流没有任何特征，应用层网管识别技术针对的对象就是此类业务，首先由应用层网管识别出控制流，并根据控制流协议选择特定的应用层网关对业务流进行解析，从而识别出相应的业务流。对于每一个协议，需要不同的应用层网关对其进行分析。例如：H323、SIP等协议，就属于此类，其通过信令交互过程，协商得到其数据通道，一般是RTP格式封装的语音流，纯粹检测RTP流并不能确定这条RTP流是通过那种协议建立起来的，即判断其是何种业务，只有通过检测SIP或H232的协议交互，才能得到其完整的分析。
+第三类是行为模式识别技术：在实施行为模式技术之前，运营商首先必须先对终端的各种行为进行研究，并在此基础上建立行为识别模型，基于行为识别模型，行为模式识别技术即根据客户已经实施的行为，判断客户正在进行的动作或者即将实施的动作。行为模式识别技术通常用于那些无法由协议本身就能判别的业务，例如：从电子邮件的内容看，垃圾邮件和普通邮件的业务流两者间根本没有区别，只有进一步分析，具体根据发送邮件的大小、频率，目的邮件和源邮件地址、变化的频率和被拒绝的频率等综合分析，建立综合识别模型，才能判断是否为垃圾邮件。
+这三类识别技术分别适用于不同类型的协议，相互之间无法替代，只有综合的运用这三大技术，才能有效的灵活的识别网络上的各类应用，从而实现控制和计费。
+DFI DFI(Deep/Dynamic Flow Inspection，深度/动态流检测)与DPI进行应用层的载荷匹配不同，采用的是一种基于流量行为的应用识别技术，即不同的应用类型体现在会话连接或数据流上的状态各有不同。例如，网上IP语音流量体现在流状态上的特征就非常明显：RTP流的包长相对固定，一般在130～220byte，连接速率较低，为20～84kbit/s，同时会话持续时间也相对较长；而基于P2P下载应用的流量模型的特点为平均包长都在450byte以上、下载时间长、连接速率高、首选传输层协议为TCP等。DFI技术正是基于这一系列流量的行为特征，建立流量特征模型，通过分析会话连接流的包长、连接速率、传输字节量、包与包之间的间隔等信息来与流量模型对比，从而实现鉴别应用类型。
+DPI与DFI的优缺点 DFI处理速度相对快：采用DPI技术由于要逐包进行拆包操作，并与后台数据库进行匹配对比；采用DFI技术进行流量分析仅需将流量特征与后台流量模型比较即可。
+DFI维护成本相对较低：基于DPI技术的带宽管理系统，总是滞后新应用，需要紧跟新协议和新型应用的产生而不断升级后台应用数据库，否则就不能有效识别、管理新技术下的带宽，提高模式匹配效率；而基于DFI技术的系统在管理维护上的工作量要少于DPI系统，因为同一类型的新应用与旧应用的流量特征不会出现大的变化，因此不需要频繁升级流量行为模型。
+识别准确率方面各有千秋：由于DPI采用逐包分析、模式匹配技术，因此，可以对流量中的具体应用类型和协议做到比较准确的识别；而DFI仅对流量行为分析，因此只能对应用类型进行笼统分类，如对满足P2P流量模型的应用统一识别为P2P流量，对符合网络语音流量模型的类型统一归类为VOIP流量，但是无法判断该流量是否采用H.323或其他协议。如果数据包是经过加密传输的，则采用DPI方式的流控技术则不能识别其具体应用，而DFI方式的流控技术则不受影响，因为应用流的状态行为特征不会因加密而根本改变。
+NTA NTA的定义 NTA是一直新兴的威胁检测技术，是2013年Gartner提出的五种检测高级威胁的手段之一。其前身是NBA（Network Behavior Analysis），一项早在2005年就被Gartner提出来的技术。NTA与EDR（Endpoint Detection and Response，端点检测与响应 ）一个关注网络，一个聚焦端点，但在技术和应用上有很多相似之处：都属于威胁检测类的新兴技术，都用到了大数据分析技术，都是安全分析的一个具体用例，都是CARTA（Continuous Adaptive Risk and Trust Assessment，持续自适应风险与信任评估）的重要组成部分，都推荐与SIEM/SOC集成使用，都是一类对安全分析师水平要求较高的技术，用好不易。
+NTA融合了传统的基于规则的检测技术，以及机器学习和其他高级分析技术，通过对行为的探知和上下文的关联，用以检测企业网络中的可疑行为，尤其是失陷后的痕迹。NTA通过DFI和DPI技术来分析网络流量，通常部署在关键的网络区域对南北向（跨越网络边界）/东西向（网络中横向移动）的流量进行分析，而不会试图对全网进行监测。
+NTA的定位与特点 2017年6月，NTA（Network Traffic Analysis）技术入选了国际知名咨询机构Gartner《2017年11大顶尖信息安全技术》，列于第五位。在当下新的安全形势下，流量分析技术在威胁分析、恶意行为监测上的作用进一步被强化。现有的安全防护措施屡屡失效，人们迫切需要在常见的网络三剑客IPS（Intrusion Prevention System）&#43;IDS（Intrusion Detection System）&#43;防火墙的基础上做进一步的补充，而根据“只要有攻击就会有流量产生”这样的朴素道理，NTA技术被认为可以极大地提升防御能力。对于那些试图通过基于网络的方式去识别绕过边界安全的高级攻击的企业而言，可以考虑使用NTA技术来帮助识别、管理和分类这些事件，并做出辅助决策。
+2019年2月，Gartner发布了《网络流量分析（NTA）市场指南》，其中对NTA的市场定义为：NTA是一种功能和能力，而非纯粹的一个产品。换而言之，NTA是支撑安全产品的一项技术能力，通过对内外网之间的流量以及内网之中的流量进行监控、分析，以检测企业网络中的潜在威胁。其中，需要注意的是，对于行为的检测是需要基于网络流量进行的，而不是针对用户自身的行为。即使是APT攻击，攻击者依然会遵循一定的方式进行：前期对IT环境的侦查、对边界的尝试绕过、社会工程学与钓鱼的针对人攻击、内网的扩散、后门的植入等。而NTA的的价值就在于通过对实际流量进行分析、对比，发现威胁。
+目前，NTA技术已基本具备了成熟的响应与监测能力，具备多元化网络安全解决方案的企业以及专攻一门（如网络沙盒）的企业已基本覆盖NTA市场，已经能够实现具体案例具体实施的细化解决方案。Gartner在《NTA市场指南》中指出，NTA作为一种新兴的威胁检测技术，主要应用于网络流量的行为分析，帮助企业监测可疑流量，弥补其他安全工具的不足，NTA技术强调实时流量的行为检测，这样可以大大缩短感染和检测之间的时间，NTA解决方案在发生完全破坏之前告警修复攻击，让企业高枕无忧。对Gartner《NTA市场指南》中罗列的国外知名厂商旗下安全产品，可以看到成熟的产品一般具备以下特点，或支持相关能力：
+  网络全流量存储与检索 解析后的全流量网络协议数据会基于大数据技术进行存储，支持快速检索的能力，以满足对实时数据的在线分析与离线分析技术。
+  攻击行为检测 通过对协议进行特征识别，检测通用攻击行为的能力，如Web攻击、应用层攻击、端口/服务扫描攻击等。
+  异常行为检测 对协议数据进行行为分析，注重协议上下文的关联性，大量应用机器学习、数据分析等新技术识别异常行为与高级风险。
+  基线式检测 以海量数据为基础，构建安全基线场景，利用离线分析技术，检测低速及潜伏型安全威胁。">
+
+<meta itemprop="wordCount" content="80">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="2、 流量探针设备的主要功能，设备自身做哪些数据处理？ 流量探针设备在不同厂商的名称略有不同，有的叫深度包解析设备（Deep packet inspection，DPI），有的叫网络流量分析设备（Network Traffic Analysis，NTA），那么NTA和DPI的区别是什么呢？下面先详细介绍一下DPI和DFI（Deep/Dynamic Flow Inspection，深度/动态流检测）技术。
+DPI与DFI DPI DPI全称为“Deep Packet Inspection”，称为“深度包检测”。所谓“深度”是和普通的报文分析层次相比较而言的，普通报文检测仅分析 IP 包的4层以下的内容，包括源地址、目的地址、源端口、目的端口以及协议类型。DPI技术在分析包头的基础上，增加了对应用层的分析，是一种基于应用层的流量检测和控制技术，当IP数据包、TCP或UDP数据流经过基于DPI技术的带宽管理系统时，该系统通过深入读取IP包载荷的内容来对OSI7层协议中的应用层信息进行重组，从而得到整个应用程序的内容，然后按照系统定义的管理策略对流量进行整形操作。
+针对不同的协议类型，DPI识别技术可划分为以下三类：
+第一类是特征字的识别技术：不同的应用通常会采用不同的协议，而各种协议都有其特殊的指纹，这些指纹可能是特定的端口、特定的字符串或者特定的Bit序列。基于特征字的识别技术，正是通过识别数据报文中的指纹信息来确定业务所承载的应用。根据具体检测方式的不同，基于特征字的识别技术又可细分为固定特征位置匹配、变动特征位置匹配和状态特征字匹配三种分支技术。通过对指纹信息的升级，基于特征字的识别技术可以方便的扩展到对新协议的检测。
+第二类是应用层网关识别技术：在业务中，有一类的控制流和业务流是分离的，如与7号信令相关的业务，其业务流没有任何特征，应用层网管识别技术针对的对象就是此类业务，首先由应用层网管识别出控制流，并根据控制流协议选择特定的应用层网关对业务流进行解析，从而识别出相应的业务流。对于每一个协议，需要不同的应用层网关对其进行分析。例如：H323、SIP等协议，就属于此类，其通过信令交互过程，协商得到其数据通道，一般是RTP格式封装的语音流，纯粹检测RTP流并不能确定这条RTP流是通过那种协议建立起来的，即判断其是何种业务，只有通过检测SIP或H232的协议交互，才能得到其完整的分析。
+第三类是行为模式识别技术：在实施行为模式技术之前，运营商首先必须先对终端的各种行为进行研究，并在此基础上建立行为识别模型，基于行为识别模型，行为模式识别技术即根据客户已经实施的行为，判断客户正在进行的动作或者即将实施的动作。行为模式识别技术通常用于那些无法由协议本身就能判别的业务，例如：从电子邮件的内容看，垃圾邮件和普通邮件的业务流两者间根本没有区别，只有进一步分析，具体根据发送邮件的大小、频率，目的邮件和源邮件地址、变化的频率和被拒绝的频率等综合分析，建立综合识别模型，才能判断是否为垃圾邮件。
+这三类识别技术分别适用于不同类型的协议，相互之间无法替代，只有综合的运用这三大技术，才能有效的灵活的识别网络上的各类应用，从而实现控制和计费。
+DFI DFI(Deep/Dynamic Flow Inspection，深度/动态流检测)与DPI进行应用层的载荷匹配不同，采用的是一种基于流量行为的应用识别技术，即不同的应用类型体现在会话连接或数据流上的状态各有不同。例如，网上IP语音流量体现在流状态上的特征就非常明显：RTP流的包长相对固定，一般在130～220byte，连接速率较低，为20～84kbit/s，同时会话持续时间也相对较长；而基于P2P下载应用的流量模型的特点为平均包长都在450byte以上、下载时间长、连接速率高、首选传输层协议为TCP等。DFI技术正是基于这一系列流量的行为特征，建立流量特征模型，通过分析会话连接流的包长、连接速率、传输字节量、包与包之间的间隔等信息来与流量模型对比，从而实现鉴别应用类型。
+DPI与DFI的优缺点 DFI处理速度相对快：采用DPI技术由于要逐包进行拆包操作，并与后台数据库进行匹配对比；采用DFI技术进行流量分析仅需将流量特征与后台流量模型比较即可。
+DFI维护成本相对较低：基于DPI技术的带宽管理系统，总是滞后新应用，需要紧跟新协议和新型应用的产生而不断升级后台应用数据库，否则就不能有效识别、管理新技术下的带宽，提高模式匹配效率；而基于DFI技术的系统在管理维护上的工作量要少于DPI系统，因为同一类型的新应用与旧应用的流量特征不会出现大的变化，因此不需要频繁升级流量行为模型。
+识别准确率方面各有千秋：由于DPI采用逐包分析、模式匹配技术，因此，可以对流量中的具体应用类型和协议做到比较准确的识别；而DFI仅对流量行为分析，因此只能对应用类型进行笼统分类，如对满足P2P流量模型的应用统一识别为P2P流量，对符合网络语音流量模型的类型统一归类为VOIP流量，但是无法判断该流量是否采用H.323或其他协议。如果数据包是经过加密传输的，则采用DPI方式的流控技术则不能识别其具体应用，而DFI方式的流控技术则不受影响，因为应用流的状态行为特征不会因加密而根本改变。
+NTA NTA的定义 NTA是一直新兴的威胁检测技术，是2013年Gartner提出的五种检测高级威胁的手段之一。其前身是NBA（Network Behavior Analysis），一项早在2005年就被Gartner提出来的技术。NTA与EDR（Endpoint Detection and Response，端点检测与响应 ）一个关注网络，一个聚焦端点，但在技术和应用上有很多相似之处：都属于威胁检测类的新兴技术，都用到了大数据分析技术，都是安全分析的一个具体用例，都是CARTA（Continuous Adaptive Risk and Trust Assessment，持续自适应风险与信任评估）的重要组成部分，都推荐与SIEM/SOC集成使用，都是一类对安全分析师水平要求较高的技术，用好不易。
+NTA融合了传统的基于规则的检测技术，以及机器学习和其他高级分析技术，通过对行为的探知和上下文的关联，用以检测企业网络中的可疑行为，尤其是失陷后的痕迹。NTA通过DFI和DPI技术来分析网络流量，通常部署在关键的网络区域对南北向（跨越网络边界）/东西向（网络中横向移动）的流量进行分析，而不会试图对全网进行监测。
+NTA的定位与特点 2017年6月，NTA（Network Traffic Analysis）技术入选了国际知名咨询机构Gartner《2017年11大顶尖信息安全技术》，列于第五位。在当下新的安全形势下，流量分析技术在威胁分析、恶意行为监测上的作用进一步被强化。现有的安全防护措施屡屡失效，人们迫切需要在常见的网络三剑客IPS（Intrusion Prevention System）&#43;IDS（Intrusion Detection System）&#43;防火墙的基础上做进一步的补充，而根据“只要有攻击就会有流量产生”这样的朴素道理，NTA技术被认为可以极大地提升防御能力。对于那些试图通过基于网络的方式去识别绕过边界安全的高级攻击的企业而言，可以考虑使用NTA技术来帮助识别、管理和分类这些事件，并做出辅助决策。
+2019年2月，Gartner发布了《网络流量分析（NTA）市场指南》，其中对NTA的市场定义为：NTA是一种功能和能力，而非纯粹的一个产品。换而言之，NTA是支撑安全产品的一项技术能力，通过对内外网之间的流量以及内网之中的流量进行监控、分析，以检测企业网络中的潜在威胁。其中，需要注意的是，对于行为的检测是需要基于网络流量进行的，而不是针对用户自身的行为。即使是APT攻击，攻击者依然会遵循一定的方式进行：前期对IT环境的侦查、对边界的尝试绕过、社会工程学与钓鱼的针对人攻击、内网的扩散、后门的植入等。而NTA的的价值就在于通过对实际流量进行分析、对比，发现威胁。
+目前，NTA技术已基本具备了成熟的响应与监测能力，具备多元化网络安全解决方案的企业以及专攻一门（如网络沙盒）的企业已基本覆盖NTA市场，已经能够实现具体案例具体实施的细化解决方案。Gartner在《NTA市场指南》中指出，NTA作为一种新兴的威胁检测技术，主要应用于网络流量的行为分析，帮助企业监测可疑流量，弥补其他安全工具的不足，NTA技术强调实时流量的行为检测，这样可以大大缩短感染和检测之间的时间，NTA解决方案在发生完全破坏之前告警修复攻击，让企业高枕无忧。对Gartner《NTA市场指南》中罗列的国外知名厂商旗下安全产品，可以看到成熟的产品一般具备以下特点，或支持相关能力：
+  网络全流量存储与检索 解析后的全流量网络协议数据会基于大数据技术进行存储，支持快速检索的能力，以满足对实时数据的在线分析与离线分析技术。
+  攻击行为检测 通过对协议进行特征识别，检测通用攻击行为的能力，如Web攻击、应用层攻击、端口/服务扫描攻击等。
+  异常行为检测 对协议数据进行行为分析，注重协议上下文的关联性，大量应用机器学习、数据分析等新技术识别异常行为与高级风险。
+  基线式检测 以海量数据为基础，构建安全基线场景，利用离线分析技术，检测低速及潜伏型安全威胁。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">一苇杭之</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://lyastro.github.io/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://lyastro.github.io/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://lyastro.github.io/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://lyastro.github.io/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://lyastro.github.io/about/">About</a>
+          
+        
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      一苇杭之
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://lyastro.github.io/">Home</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://lyastro.github.io/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://lyastro.github.io/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://lyastro.github.io/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://lyastro.github.io/about/">About</a>
+          
+
+        
+
+      </li>
+    
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title"></h1>
+      
+      <div class="post-meta">
+        <time datetime="0001-01-01" class="post-time">
+          0001-01-01
+        </time>
+        
+        <span class="more-meta"> 80 words </span>
+          <span class="more-meta"> 1 min read </span>
+
+        
+        
+          <span id="busuanzi_container_page_pv">
+            | 阅读 <span id="busuanzi_value_page_pv"></span>
+          </span>
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#2-">2、 流量探针设备的主要功能，设备自身做哪些数据处理？</a>
+      <ul>
+        <li><a href="#dpidfi">DPI与DFI</a></li>
+        <li><a href="#nta">NTA</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <h2 id="2-">2、 流量探针设备的主要功能，设备自身做哪些数据处理？</h2>
+<p>流量探针设备在不同厂商的名称略有不同，有的叫深度包解析设备（Deep packet inspection，DPI），有的叫网络流量分析设备（Network Traffic Analysis，NTA），那么NTA和DPI的区别是什么呢？下面先详细介绍一下DPI和DFI（Deep/Dynamic Flow Inspection，深度/动态流检测）技术。</p>
+<h3 id="dpidfi">DPI与DFI</h3>
+<h4 id="dpi">DPI</h4>
+<p>DPI全称为“Deep Packet Inspection”，称为“深度包检测”。所谓“深度”是和普通的报文分析层次相比较而言的，普通报文检测仅分析 IP 包的4层以下的内容，包括源地址、目的地址、源端口、目的端口以及协议类型。DPI技术在分析包头的基础上，增加了对应用层的分析，是一种基于应用层的流量检测和控制技术，当IP数据包、TCP或UDP数据流经过基于DPI技术的带宽管理系统时，该系统通过深入读取IP包载荷的内容来对OSI7层协议中的应用层信息进行重组，从而得到整个应用程序的内容，然后按照系统定义的管理策略对流量进行整形操作。</p>
+<p>针对不同的协议类型，DPI识别技术可划分为以下三类：</p>
+<p>第一类是特征字的识别技术：不同的应用通常会采用不同的协议，而各种协议都有其特殊的指纹，这些指纹可能是特定的端口、特定的字符串或者特定的Bit序列。基于特征字的识别技术，正是通过识别数据报文中的指纹信息来确定业务所承载的应用。根据具体检测方式的不同，基于特征字的识别技术又可细分为固定特征位置匹配、变动特征位置匹配和状态特征字匹配三种分支技术。通过对指纹信息的升级，基于特征字的识别技术可以方便的扩展到对新协议的检测。</p>
+<p>第二类是应用层网关识别技术：在业务中，有一类的控制流和业务流是分离的，如与7号信令相关的业务，其业务流没有任何特征，应用层网管识别技术针对的对象就是此类业务，首先由应用层网管识别出控制流，并根据控制流协议选择特定的应用层网关对业务流进行解析，从而识别出相应的业务流。对于每一个协议，需要不同的应用层网关对其进行分析。例如：H323、SIP等协议，就属于此类，其通过信令交互过程，协商得到其数据通道，一般是RTP格式封装的语音流，纯粹检测RTP流并不能确定这条RTP流是通过那种协议建立起来的，即判断其是何种业务，只有通过检测SIP或H232的协议交互，才能得到其完整的分析。</p>
+<p>第三类是行为模式识别技术：在实施行为模式技术之前，运营商首先必须先对终端的各种行为进行研究，并在此基础上建立行为识别模型，基于行为识别模型，行为模式识别技术即根据客户已经实施的行为，判断客户正在进行的动作或者即将实施的动作。行为模式识别技术通常用于那些无法由协议本身就能判别的业务，例如：从电子邮件的内容看，垃圾邮件和普通邮件的业务流两者间根本没有区别，只有进一步分析，具体根据发送邮件的大小、频率，目的邮件和源邮件地址、变化的频率和被拒绝的频率等综合分析，建立综合识别模型，才能判断是否为垃圾邮件。</p>
+<p>这三类识别技术分别适用于不同类型的协议，相互之间无法替代，只有综合的运用这三大技术，才能有效的灵活的识别网络上的各类应用，从而实现控制和计费。</p>
+<h4 id="dfi">DFI</h4>
+<p>DFI(Deep/Dynamic Flow Inspection，深度/动态流检测)与DPI进行应用层的载荷匹配不同，采用的是一种基于流量行为的应用识别技术，即不同的应用类型体现在会话连接或数据流上的状态各有不同。例如，网上IP语音流量体现在流状态上的特征就非常明显：RTP流的包长相对固定，一般在130～220byte，连接速率较低，为20～84kbit/s，同时会话持续时间也相对较长；而基于P2P下载应用的流量模型的特点为平均包长都在450byte以上、下载时间长、连接速率高、首选传输层协议为TCP等。DFI技术正是基于这一系列流量的行为特征，建立流量特征模型，通过分析会话连接流的包长、连接速率、传输字节量、包与包之间的间隔等信息来与流量模型对比，从而实现鉴别应用类型。</p>
+<h4 id="dpidfi-1">DPI与DFI的优缺点</h4>
+<p>DFI处理速度相对快：采用DPI技术由于要逐包进行拆包操作，并与后台数据库进行匹配对比；采用DFI技术进行流量分析仅需将流量特征与后台流量模型比较即可。</p>
+<p>DFI维护成本相对较低：基于DPI技术的带宽管理系统，总是滞后新应用，需要紧跟新协议和新型应用的产生而不断升级后台应用数据库，否则就不能有效识别、管理新技术下的带宽，提高模式匹配效率；而基于DFI技术的系统在管理维护上的工作量要少于DPI系统，因为同一类型的新应用与旧应用的流量特征不会出现大的变化，因此不需要频繁升级流量行为模型。</p>
+<p>识别准确率方面各有千秋：由于DPI采用逐包分析、模式匹配技术，因此，可以对流量中的具体应用类型和协议做到比较准确的识别；而DFI仅对流量行为分析，因此只能对应用类型进行笼统分类，如对满足P2P流量模型的应用统一识别为P2P流量，对符合网络语音流量模型的类型统一归类为VOIP流量，但是无法判断该流量是否采用H.323或其他协议。如果数据包是经过加密传输的，则采用DPI方式的流控技术则不能识别其具体应用，而DFI方式的流控技术则不受影响，因为应用流的状态行为特征不会因加密而根本改变。</p>
+<h3 id="nta">NTA</h3>
+<h4 id="nta-1">NTA的定义</h4>
+<p>NTA是一直新兴的威胁检测技术，是2013年Gartner提出的五种检测高级威胁的手段之一。其前身是NBA（Network Behavior Analysis），一项早在2005年就被Gartner提出来的技术。NTA与EDR（Endpoint Detection and Response，端点检测与响应 ）一个关注网络，一个聚焦端点，但在技术和应用上有很多相似之处：都属于威胁检测类的新兴技术，都用到了大数据分析技术，都是安全分析的一个具体用例，都是CARTA（Continuous Adaptive Risk and Trust Assessment，持续自适应风险与信任评估）的重要组成部分，都推荐与SIEM/SOC集成使用，都是一类对安全分析师水平要求较高的技术，用好不易。</p>
+<p><img src="C:%5C0x02LY%5CGitHub%5Clyastro_hugo%5Cstatic%5Cimg%5Cfive_styles_of_advanced_threat_defense.png" alt="five_styles_of_advanced_threat_defense"></p>
+<p>NTA融合了传统的基于规则的检测技术，以及机器学习和其他高级分析技术，通过对行为的探知和上下文的关联，用以检测企业网络中的可疑行为，尤其是失陷后的痕迹。NTA通过DFI和DPI技术来分析网络流量，通常部署在关键的网络区域对南北向（跨越网络边界）/东西向（网络中横向移动）的流量进行分析，而不会试图对全网进行监测。</p>
+<h4 id="nta-2">NTA的定位与特点</h4>
+<p>2017年6月，NTA（Network Traffic Analysis）技术入选了国际知名咨询机构Gartner《2017年11大顶尖信息安全技术》，列于第五位。在当下新的安全形势下，流量分析技术在威胁分析、恶意行为监测上的作用进一步被强化。现有的安全防护措施屡屡失效，人们迫切需要在常见的网络三剑客IPS（Intrusion Prevention System）+IDS（Intrusion Detection System）+防火墙的基础上做进一步的补充，而根据“只要有攻击就会有流量产生”这样的朴素道理，NTA技术被认为可以极大地提升防御能力。对于那些试图通过基于网络的方式去识别绕过边界安全的高级攻击的企业而言，可以考虑使用NTA技术来帮助识别、管理和分类这些事件，并做出辅助决策。</p>
+<p>2019年2月，Gartner发布了《网络流量分析（NTA）市场指南》，其中对NTA的市场定义为：NTA是一种功能和能力，而非纯粹的一个产品。换而言之，NTA是支撑安全产品的一项技术能力，通过对内外网之间的流量以及内网之中的流量进行监控、分析，以检测企业网络中的潜在威胁。其中，需要注意的是，对于行为的检测是需要基于网络流量进行的，而不是针对用户自身的行为。即使是APT攻击，攻击者依然会遵循一定的方式进行：前期对IT环境的侦查、对边界的尝试绕过、社会工程学与钓鱼的针对人攻击、内网的扩散、后门的植入等。而NTA的的价值就在于通过对实际流量进行分析、对比，发现威胁。</p>
+<p>目前，NTA技术已基本具备了成熟的响应与监测能力，具备多元化网络安全解决方案的企业以及专攻一门（如网络沙盒）的企业已基本覆盖NTA市场，已经能够实现具体案例具体实施的细化解决方案。Gartner在《NTA市场指南》中指出，NTA作为一种新兴的威胁检测技术，主要应用于网络流量的行为分析，帮助企业监测可疑流量，弥补其他安全工具的不足，NTA技术强调实时流量的行为检测，这样可以大大缩短感染和检测之间的时间，NTA解决方案在发生完全破坏之前告警修复攻击，让企业高枕无忧。对Gartner《NTA市场指南》中罗列的国外知名厂商旗下安全产品，可以看到成熟的产品一般具备以下特点，或支持相关能力：</p>
+<ol>
+<li>
+<p>网络全流量存储与检索
+解析后的全流量网络协议数据会基于大数据技术进行存储，支持快速检索的能力，以满足对实时数据的在线分析与离线分析技术。</p>
+</li>
+<li>
+<p>攻击行为检测
+通过对协议进行特征识别，检测通用攻击行为的能力，如Web攻击、应用层攻击、端口/服务扫描攻击等。</p>
+</li>
+<li>
+<p>异常行为检测
+对协议数据进行行为分析，注重协议上下文的关联性，大量应用机器学习、数据分析等新技术识别异常行为与高级风险。</p>
+</li>
+<li>
+<p>基线式检测
+以海量数据为基础，构建安全基线场景，利用离线分析技术，检测低速及潜伏型安全威胁。</p>
+</li>
+<li>
+<p>数据智能安全分析
+基于保留的原始流量数据，结合数据挖掘、人工智能等相关大数据技术，更加智能地洞悉信息与网络安全态势，更主动、弹性地去应对新型复杂的威胁和未知多变的风险。</p>
+</li>
+<li>
+<p>溯源与调查取证
+应用大数据解析与检索技术，对协议上下文与协议内容进行调查取证，快速定位风险事件与协议事件的关系。</p>
+</li>
+<li>
+<p>可视化威胁狩猎
+应用可视化分析技术，关联异常事件的综合信息，降低安全支出，提升安全可见性。</p>
+</li>
+</ol>
+<p><a href="https://www.jianshu.com/p/c7cebdf1f9df">DPI (Deep Packet Inspection) 深度包检测技术</a></p>
+<p><a href="https://www.cnblogs.com/vancasola/p/9692249.html">深度包检测(DPI)详细介绍</a></p>
+<p><a href="https://www.freebuf.com/articles/database/207265.html">解码丨NTA企业级典型实践-斗象智能安全PRS</a></p>
+<p><a href="http://www.cww.net.cn/article?id=430154">启明星辰NTA(网络流量分析)产品如何演化、创新、固安全!</a></p>
+<p><a href="https://cloud.tencent.com/developer/article/1471000">网藤PRS｜解构NTA的发展与实践之路</a></p>
+<p><a href="%5Bhttps://www.sec-un.org/%E6%B5%85%E6%9E%90gartner%E8%AF%84%E5%87%BA%E7%9A%84%E5%8D%81%E4%B8%80%E5%A4%A7%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/%5D(https://www.sec-un.org/%E6%B5%85%E6%9E%90gartner%E8%AF%84%E5%87%BA%E7%9A%84%E5%8D%81%E4%B8%80%E5%A4%A7%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/)">浅析Gartner评出的十一大信息安全技术</a></p>
+<p><a href="https://mlog.club/article/24532">NTA以及空间与时间的防御——山石网科的安全理解</a></p>
+<p><a href="https://www.mesalab.cn/f/article/detail?id=88">NTA技术介绍及其应用产品</a></p>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">一苇</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">0001-01-01</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+
+    
+    
+
+    <footer class="post-footer">
+      
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/template/my-first-post/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">Hugo建站手册</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+  
+  
+
+  
+  
+
+  
+  
+
+  
+
+  
+
+  
+  
+    
+
+
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+
+
+<a href="https://lyastro.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2019 -
+    2020
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        一苇
+        
+      </span></span>
+
+  
+  
+    <span id="busuanzi_container">
+      访客数/访问量：<span id="busuanzi_value_site_uv"></span>/<span id="busuanzi_value_site_pv"></span>
+    </span>
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.dee43230127a73d039a734510fa896c89c3c7ce0cf0be0c7a7433f8fd69b76dc.js" integrity="sha256-3uQyMBJ6c9A5pzRRD6iWyJw8fODPC&#43;DHp0M/j9abdtw=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

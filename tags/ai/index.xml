@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>AI on 一苇杭之</title>
+    <link>https://lyastro.github.io/tags/ai/</link>
+    <description>Recent content in AI on 一苇杭之</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 13 Feb 2020 16:43:30 +0800</lastBuildDate>
+    
+	<atom:link href="https://lyastro.github.io/tags/ai/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>AI-Security-Awesome</title>
+      <link>https://lyastro.github.io/post/cybersecurity/ai-security-awesome/</link>
+      <pubDate>Thu, 13 Feb 2020 16:43:30 +0800</pubDate>
+      
+      <guid>https://lyastro.github.io/post/cybersecurity/ai-security-awesome/</guid>
+      <description>比赛 DataCon 2019 方向一 DNS恶意流量检测 DataCon 9102: DNS Analysis, THU Team 1 DataCon 2019: 1st place solution of malicious DNS traffic &amp;amp; DGA analysis，代码 DataCon大赛DNS方向writeup及总结反</description>
+    </item>
+    
+  </channel>
+</rss>
